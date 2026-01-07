@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day 3 - Product List</title>
+    <style>
+      * {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 10px;
+      }
+      thead,
+      tbody,
+      tfoot {
+        border: 2px solid black;
+      }
+      th,
+      td {
+        border: 1px solid gray;
+      }
+      thead {
+        background-color: rgb(8, 22, 48);
+        padding: 10px;
+        color: aliceblue;
+      }
+      th,
+      td {
+        padding: 10px 20px;
+      }
+      button {
+        padding: 7px 15px;
+        background-color: rgb(8, 22, 48);
+        color: aliceblue;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Laptops</h1>
+    <table>
+      <colgroup>
+        <col style="width: 10%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product Details</th>
+          <th>Specifications</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/MacBook_Air_(15-inch,_M4,_Silver).jpg"
+              alt="Silver Zenith Ultrabook X1 side view"
+              width="180"
+              height="120"
+            />
+          </td>
+          <td>
+            <h3>Zenith UltraBook X1</h3>
+            <p>
+              A lightweight, premium laptop designed for professionals. Features
+              all-day battery life.
+            </p>
+          </td>
+          <td>
+            <ul>
+              <li><strong>CPU:</strong> Intel Core i7</li>
+              <li><strong>RAM:</strong> 16GB DDR5</li>
+              <li><strong>Storage:</strong> 512GB NVMe SSD</li>
+              <li><strong>Screen:</strong> 14" 4K OLED</li>
+            </ul>
+          </td>
+          <td>
+            <p>$1,299.00</p>
+            <button>Add to Cart</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/Backlit_keyboard.jpg"
+              alt="Black Titan Gaming laptop with red keyboard lighting"
+              width="180"
+              height="120"
+            />
+          </td>
+          <td>
+            <h3>Titan Gaming Pro</h3>
+            <p>
+              Dominate the competition with advanced cooling and
+              high-performance graphics.
+            </p>
+          </td>
+          <td>
+            <ul>
+              <li><strong>CPU:</strong> AMD Ryzen 9</li>
+              <li><strong>RAM:</strong> 32GB DDR5</li>
+              <li><strong>Storage:</strong> 1TB Gen4 SSD</li>
+              <li><strong>Screen:</strong> 17.3" 240Hz IPS</li>
+            </ul>
+          </td>
+          <td>
+            <p>$1,899.00</p>
+            <button>Add to Cart</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/Lenovo_ThinkPad_T410_laptop_(cropped).jpg"
+              alt="Standard black EcoStream laptop"
+              width="180"
+              height="120"
+            />
+          </td>
+          <td>
+            <h3>EcoStream 15</h3>
+            <p>
+              Reliable choice for students and home office. Made with 30%
+              recycled plastics.
+            </p>
+          </td>
+          <td>
+            <ul>
+              <li><strong>CPU:</strong> Intel Core i5</li>
+              <li><strong>RAM:</strong> 8GB DDR4</li>
+              <li><strong>Storage:</strong> 256GB SSD</li>
+              <li><strong>Screen:</strong> 15.6" FHD</li>
+            </ul>
+          </td>
+          <td>
+            <p>$549.99</p>
+            <button>Add to Cart</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th
+            colspan="4"
+            style="text-align: center; background-color: antiquewhite"
+          >
+            This prodcuts are having limited stocks.
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </body>
+</html>
