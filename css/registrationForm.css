@@ -1,0 +1,39 @@
+* {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.noteText {
+  color: red;
+  font-weight: bold;
+  background-color: #ffeeee;
+  padding: 7px;
+  border: 1px solid red;
+  display: inline-block;
+}
+
+fieldset {
+  width: 50%;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 95%;
+  padding: 5px;
+}
+
+.option-label {
+  display: inline;
+  font-weight: normal;
+}
