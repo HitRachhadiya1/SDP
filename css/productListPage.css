@@ -1,0 +1,34 @@
+* {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 10px;
+}
+thead,
+tbody,
+tfoot {
+  border: 2px solid black;
+}
+th,
+td {
+  border: 1px solid gray;
+}
+thead {
+  background-color: rgb(8, 22, 48);
+  padding: 10px;
+  color: aliceblue;
+}
+th,
+td {
+  padding: 10px 20px;
+}
+button {
+  padding: 7px 15px;
+  background-color: rgb(8, 22, 48);
+  color: aliceblue;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
