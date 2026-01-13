@@ -37,6 +37,6 @@
 
 // console.log(number1.name); // Output:  (number1 CHANGED too!)
 
-console.log(typeof {});
-console.log(typeof []);
-console.log(typeof null);
+// console.log(typeof {});
+// console.log(typeof []);
+// console.log(typeof null);
