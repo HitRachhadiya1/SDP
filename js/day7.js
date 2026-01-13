@@ -1,5 +1,4 @@
 // function Declaration
-
 function hello() {
   console.log("hello from function declaration");
 }
@@ -129,3 +128,53 @@ const person = {
   },
 };
 person.sayHello();
+
+// clouser
+
+// 6 6 6 6 6 6
+function x() {
+  for (var i = 1; i <= 5; i++) {
+    console.log(i);
+    setTimeout(() => {
+      console.log(i);
+    }, 1000);
+  }
+  console.log("exit");
+}
+
+// 1 2 3 4 5
+// function x() {
+//   for (let i = 1; i <= 5; i++) {
+//     console.log(i);
+//     setTimeout(() => {
+//       console.log(i);
+//     }, 1000);
+//   }
+//   console.log("exit");
+// }
+
+function x() {
+  for (var i = 1; i <= 5; i++) {
+    console.log(i);
+    setTimeout(
+      (i) => {
+        console.log(i);
+      },
+      1000,
+      i
+    );
+  }
+  console.log("exit");
+}
+
+// function x() {
+//   for (var i = 1; i <= 5; i++) {
+//     (function (j) {
+//       setTimeout(() => {
+//         console.log(j);
+//       }, 1000);
+//     })(i);
+//   }
+// }
+
+x();
