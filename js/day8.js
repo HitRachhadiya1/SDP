@@ -176,3 +176,26 @@ function x() {
 //     })(i);
 //   }
 // }
+
+function fetchData(num) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(num);
+      resolve();
+    }, 1000);
+  });
+}
+
+async function run() {
+  const arr = [1, 2, 3, 4, 5];
+
+  for (const num of arr) {
+    await fetchData(num);
+  }
+
+  console.log("Done");
+}
+
+run();
+
+const a = function () {};
