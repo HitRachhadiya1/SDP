@@ -1,0 +1,191 @@
+:root {
+  --primary: #2563eb;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background-color: var(--bg);
+  color: #1e293b;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.6;
+}
+
+h1 {
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 2rem;
+}
+h2 {
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+/* Card Styling */
+.concept-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e2e8f0;
+}
+
+.explanation {
+  background-color: #eff6ff;
+  border-left: 4px solid var(--primary);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Interactive Elements */
+button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+button:hover {
+  opacity: 0.9;
+}
+button.danger {
+  background-color: var(--danger);
+}
+
+input {
+  padding: 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  width: 60%;
+  margin-right: 10px;
+}
+
+/* Demo Specifics */
+.box-demo {
+  border: 2px dashed #cbd5e1;
+  padding: 10px;
+  margin: 10px 0;
+}
+.hidden-span {
+  display: none;
+}
+
+.output-log {
+  background: #1e293b;
+  color: #10b981; /* Terminal green */
+  padding: 1rem;
+  border-radius: 6px;
+  font-family: monospace;
+  margin-top: 10px;
+  white-space: pre-wrap;
+}
+
+code {
+  background: #e2e8f0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #d63384;
+}
+
+/* Initial state: Just a square box */
+#profile-box {
+  width: 150px;
+  height: 150px;
+  background-color: #ddd; /* Grey placeholder */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #666;
+  transition: all 0.5s ease; /* Smooth animation */
+  cursor: pointer;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button:hover {
+  background: #1d4ed8;
+}
+
+/* =========================================
+   SECTION 4: EVENT LISTENER DEMOS
+========================================= */
+
+/* The dashed containers for the demos */
+.demo-box {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 2px dashed #cbd5e1; /* Light gray dashed border */
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+/* Specific styling for the form input */
+.input-short {
+  width: 60%;
+  padding: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+/* The message text below the form */
+.status-msg {
+  color: #64748b; /* Slate gray */
+  font-style: italic;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+/* The interactive Hover Box */
+#hover-box {
+  width: 100%;
+  height: 100px;
+  background-color: #e2e8f0;
+  color: #334155;
+  border-radius: 8px;
+
+  /* Flexbox centers the text perfectly */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: crosshair; /* Changes cursor icon */
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease; /* Smooth animation for color changes */
+}
+/* The big box that shows the key pressed */
+.key-box {
+  background-color: #1e293b; /* Dark background */
+  color: #4ade80; /* Matrix Green text */
+  font-family: monospace;
+  font-size: 2rem;
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}

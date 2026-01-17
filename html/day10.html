@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Concepts & Security Masterclass</title>
+    <script src="../js/day10.js" defer></script>
+    <link rel="stylesheet" href="../css/day10.css" />
+  </head>
+  <body>
+    <h1>JavaScript DOM</h1>
+
+    <div class="concept-card">
+      <h2>1. Selectors: Live vs. Static Collections</h2>
+
+      <div class="explanation">
+        <p>
+          <strong>Theory:</strong> Not all lists of elements are created equal.
+        </p>
+        <ul>
+          <li>
+            <code>querySelectorAll</code> returns a
+            <strong>NodeList (Static)</strong>. It's a snapshot in time. If you
+            add elements later, this list <em>won't</em> update.
+          </li>
+          <li>
+            <code>getElementsByClassName</code> returns an
+            <strong>HTMLCollection (Live)</strong>. If you add elements to the
+            DOM, this list updates <em>automatically</em>.
+          </li>
+        </ul>
+      </div>
+
+      <ul id="list-container">
+        <li class="list-item">Item 1</li>
+        <li class="list-item">Item 2</li>
+        <li class="list-item">Item 3</li>
+      </ul>
+
+      <button id="btn-add-item">Add New Item</button>
+      <button id="btn-check-length">Check List Lengths</button>
+
+      <div id="selector-output" class="output-log">Waiting for check...</div>
+    </div>
+
+    <div class="concept-card">
+      <h2>2. Content Access: The "Hidden" Trap</h2>
+
+      <div class="explanation">
+        <p><strong>Theory:</strong> How we read text matters.</p>
+        <ul>
+          <li>
+            <code>innerText</code>: Reads what the
+            <strong>user sees</strong> (ignores hidden elements, triggers
+            Reflow/expensive).
+          </li>
+          <li>
+            <code>textContent</code>: Reads <strong>raw text</strong> from
+            source (includes hidden elements, fast).
+          </li>
+          <li><code>innerHTML</code>: Reads the <strong>HTML tags</strong>.</li>
+        </ul>
+      </div>
+
+      <div id="text-demo-box" class="box-demo">
+        Hello World. <span style="display: none">(I am hidden text!)</span>
+        <strong>I am bold.</strong>
+      </div>
+
+      <button id="btn-compare-text">Compare Properties</button>
+
+      <div id="text-output" class="output-log">
+        Click button to read the box above...
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <h2>3. Security: Preventing XSS Attacks</h2>
+
+      <div class="explanation">
+        <p><strong>Theory:</strong> Never trust user input.</p>
+        <ul>
+          <li>
+            Using <code>innerHTML</code> with user input allows hackers to run
+            scripts (XSS).
+          </li>
+          <li>
+            Using <code>textContent</code> automatically escapes symbols, making
+            it safe.
+          </li>
+        </ul>
+        <p>
+          <strong>Task:</strong> Copy this attack string and try both
+          buttons:<br />
+          <code>&lt;img src=x onerror=alert('HACKED!')&gt;</code>
+        </p>
+      </div>
+
+      <input
+        type="text"
+        id="xss-input"
+        placeholder="Paste attack string here..."
+      />
+      <br /><br />
+      <button id="btn-safe" style="background-color: var(--success)">
+        Safe Render (textContent)
+      </button>
+      <button id="btn-unsafe" class="danger">Unsafe Render (innerHTML)</button>
+
+      <div class="box-demo">
+        <strong>Result:</strong> <span id="xss-result">...</span>
+      </div>
+    </div>
+    <div class="concept-card">
+      <h2>4. Styling</h2>
+      <div id="profile-box">No Profile</div>
+
+      <button id="btn-convert">Convert to Profile</button>
+    </div>
+    <div class="concept-card">
+      <h2>5. Event Listeners & The Event Object</h2>
+
+      <div class="explanation">
+        <p>
+          <strong>Theory:</strong> Don't use <code>onclick="..."</code>. Use
+          <code>addEventListener</code>.
+        </p>
+        <ul>
+          <li><strong>Click:</strong> Standard interaction.</li>
+          <li>
+            <strong>Submit:</strong> Forms refresh the page by default. Use
+            <code>e.preventDefault()</code> to stop it.
+          </li>
+          <li><strong>MouseOver:</strong> Track hover state via JS.</li>
+        </ul>
+      </div>
+
+      <div class="demo-box">
+        <button id="btn-event-details">Click to see Event Details</button>
+        <p>Clicked Element ID: <strong id="event-span">...</strong></p>
+      </div>
+
+      <div class="demo-box">
+        <form id="demo-form">
+          <input
+            type="text"
+            id="form-input"
+            class="input-short"
+            placeholder="Type name..."
+          />
+          <button type="submit">Submit Form</button>
+        </form>
+        <p id="form-msg" class="status-msg">
+          (Try submitting without code updates... page refreshes!)
+        </p>
+      </div>
+
+      <div id="hover-box">Hover Me</div>
+      <div class="demo-box">
+        <p style="margin-top: 0">
+          <strong>Press any key on your keyboard:</strong>
+        </p>
+        <div id="key-display" class="key-box">Wait for input...</div>
+        <p id="key-code-display" class="status-msg">Key Code: -</p>
+      </div>
+    </div>
+  </body>
+</html>

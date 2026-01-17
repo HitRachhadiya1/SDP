@@ -130,3 +130,38 @@ Object.values(person).forEach((v) => console.log(`Value: ${v}`));
 Object.entries(person).forEach(([k, v]) => console.log(`${k}=${v}`));
 
 console.log("\n=== COMPLETE ===");
+
+const ratings = [5, 4, 5];
+let sum = 0;
+
+const sumFunction = async (a, b) => a + b;
+
+ratings.forEach(async (rating) => {
+  sum = await sumFunction(sum, rating);
+});
+
+console.log(sum);
+// Naively expected output: 14
+// Actual output: 0
+
+const newArr = [1, 2, 3];
+
+newArr.forEach((value, index, array) => {
+  newArr[index] = value * 2;
+});
+
+console.log(newArr); // [2, 4, 6]
+
+let nSum = 0;
+
+arr = [1, 2, 3, 4, 5];
+
+arr.map((element) => (nSum += element));
+
+console.log(nSum);
+
+let add = arr.reduce((acc, num) => {
+  return (acc += num);
+}, 0);
+
+console.log(add);
