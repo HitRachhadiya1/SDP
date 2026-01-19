@@ -1,53 +1,27 @@
-// function Declaration
-function hello() {
-  console.log("hello from function declaration");
-}
+/**
+ * Day 8 - Functions & Loops
+ * Topics covered:
+ * - Function declarations, expressions, and anonymous functions
+ * - First-class functions
+ * - Callback functions
+ * - Loops (for, while, do-while, for-of, for-in)
+ * - Arrow functions and closures
+ * - Async/await patterns
+ */
 
-// function expression
-
-const funExp = function () {
-  console.log("helllo from function expression");
+// First-Class Functions
+var firstClassFunc = function (callback) {
+  console.log("Passing function as parameter:");
+  callback();
 };
 
-// Anonymous function
-
-// function(){
-//     console.log("annunymous");
-// }
-
-// They don't have their own identity. So an anonymous function without code inside it results in an error.
-// Anonymous functions are used when functions are used as values eg. the code sample for function expression above
-
-// named function expression
-
-var a = function abc() {
-  console.log("b called");
-};
-// a(); // "b called"
-// abc(); // Throws ReferenceError:abc is not defined.
-// abc function is not created in global scope. So it can't be called.
-
-// first class function
-
-// We can pass functions inside a function as arguments and /or return a function. These ability are altogether known as First class function. It is programming concept available in some other languages too.
-var a = function (param) {
-  console.log(param); // prints " f() {} "
-};
-a(function () {
-  console.log("hello");
+firstClassFunc(function () {
+  console.log("Callback function executed");
 });
 
-// callback function
-
-// function printStr(str) {
-//   setTimeout(() => {
-//     console.log(str);
-//   }, Math.random() * 1000);
-// }
-
-// printStr("A");
-// printStr("B");
-// printStr("C");
+// ==========================================
+// CALLBACK FUNCTION EXAMPLE
+// ==========================================
 
 function printStr(str, callback) {
   setTimeout(() => {
@@ -59,45 +33,40 @@ function printStr(str, callback) {
 function printAll() {
   printStr("A", () => {
     printStr("B", () => {
-      printStr("C", () => {});
+      printStr("C", () => {
+        console.log("All tasks completed");
+      });
     });
   });
 }
 
-// async function printAll() {
-//   await printStr("A");
-//   await printStr("B");
-//   await printStr("C");
-// }
-
 printAll();
 
-// loops
+// ==========================================
+// LOOPS
+// ==========================================
 
-//for
+// For loop
 for (let i = 1; i <= 5; i++) {
   console.log("Count: " + i);
 }
-// Output: Count: 1, Count: 2, ... Count: 5
 
-//while
+// While loop
 let fuel = 5;
-
 while (fuel > 0) {
   console.log("Driving... Fuel left: " + fuel);
-  fuel--; // Decrease fuel
+  fuel--;
 }
 console.log("Stopped.");
 
-//do while
+// Do-While loop
 let number = 10;
-
 do {
   console.log("This prints at least once!");
   number++;
-} while (number < 5); // Condition is false, but it ran once anyway.
+} while (number < 5);
 
-// for of
+// For-of loop
 const colors = ["Red", "Green", "Blue"];
 
 for (const color of colors) {
@@ -161,7 +130,7 @@ function x() {
         console.log(i);
       },
       1000,
-      i
+      i,
     );
   }
   console.log("exit");

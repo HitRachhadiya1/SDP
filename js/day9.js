@@ -1,83 +1,97 @@
-console.log("=== ARRAYS ===\n");
+/**
+ * Day 9 - Arrays & Objects Mastery
+ * Topics covered:
+ * - Array methods (push, pop, shift, unshift, splice, map, filter, reduce)
+ * - Array searching and iteration
+ * - Object manipulation and methods
+ * - Destructuring and spread operator
+ * - Nested data structures
+ */
+
+// ==========================================
+// ARRAYS - METHODS AND OPERATIONS
+// ==========================================
 
 let arr = [1, 2, 3, 4, 5];
 let fruits = ["apple", "banana", "orange"];
 
-// Array Properties
-console.log("Length:", arr.length);
+console.log("Array length:", arr.length);
 
-// Adding/Removing
-arr.push(6); // Add to end
-console.log(arr);
+// Adding/Removing elements
+arr.push(6);
+console.log("After push:", arr);
 
-arr.pop(); // Remove from end
-console.log(arr);
+arr.pop();
+console.log("After pop:", arr);
 
-arr.unshift(0); // Add to start
-console.log(arr);
+arr.unshift(0);
+console.log("After unshift:", arr);
 
-arr.shift(); // Remove from start
-console.log(arr);
+arr.shift();
+console.log("After shift:", arr);
 
-arr.splice(2, 1, 10, 11); // Remove/add at index
-console.log(arr);
+arr.splice(2, 1, 10, 11);
+console.log("After splice:", arr);
 
-// Searching
-console.log("indexOf:", fruits.indexOf("banana"));
-console.log("includes:", fruits.includes("mango"));
+// Array searching
+console.log("indexOf banana:", fruits.indexOf("banana"));
+console.log("includes mango:", fruits.includes("mango"));
 console.log(
-  "find:",
-  arr.find((x) => x > 3)
+  "find value > 3:",
+  arr.find((x) => x > 3),
 );
 console.log(
-  "findIndex:",
-  arr.findIndex((x) => x > 3)
+  "findIndex value > 3:",
+  arr.findIndex((x) => x > 3),
 );
 
-// Transformation
+// Array transformation
 console.log(
-  "map:",
-  arr.map((x) => x * 2)
+  "map - double values:",
+  arr.map((x) => x * 2),
 );
 console.log(
-  "filter:",
-  arr.filter((x) => x > 2)
+  "filter - values > 2:",
+  arr.filter((x) => x > 2),
 );
 console.log(
-  "reduce:",
-  arr.reduce((sum, x) => sum + x, 0)
+  "reduce - sum:",
+  arr.reduce((sum, x) => sum + x, 0),
 );
+
+// Array sorting and reversing
 console.log(
-  "sort:",
-  [...arr].sort((a, b) => b - a)
+  "sort descending:",
+  [...arr].sort((a, b) => b - a),
 );
 console.log("reverse:", [...arr].reverse());
 
-// Combining
+// Combining arrays
 console.log("concat:", arr.concat([7, 8]));
-console.log("join:", fruits.join(", "));
-console.log("slice:", arr.slice(1, 4));
+console.log("join with comma:", fruits.join(", "));
+console.log("slice(1, 4):", arr.slice(1, 4));
 
-// Testing
+// Array testing
 console.log(
-  "every:",
-  arr.every((x) => x > 0)
+  "every value > 0:",
+  arr.every((x) => x > 0),
 );
 console.log(
-  "some:",
-  arr.some((x) => x > 10)
+  "some value > 10:",
+  arr.some((x) => x > 10),
 );
 
-// Iteration
+// Array iteration
 arr.forEach((val, idx) => console.log(`forEach: ${idx}=${val}`));
 
-// Other
-console.log("flat:", [1, [2, [3, 4]]].flat(2));
-console.log("Array.from:", Array.from("hello"));
-console.log("Array.isArray:", Array.isArray(arr));
+// Other operations
+console.log("flat nested arrays:", [1, [2, [3, 4]]].flat(2));
+console.log("Array.from string:", Array.from("hello"));
+console.log("Array.isArray check:", Array.isArray(arr));
 
-// ========================================
-console.log("\n=== OBJECTS ===\n");
+// ==========================================
+// OBJECTS - MANIPULATION AND OPERATIONS
+// ==========================================
 
 let person = {
   name: "Rahul",
@@ -86,82 +100,53 @@ let person = {
   skills: ["JavaScript", "React"],
 };
 
-// Accessing
+// Accessing object properties
 console.log("Dot notation:", person.name);
 console.log("Bracket notation:", person["age"]);
 
-// Adding/Modifying/Deleting
+// Modifying object
 person.email = "rahul@example.com";
 person.age = 26;
 delete person.city;
 
-// Object Methods
+// Object methods
 console.log("Object.keys:", Object.keys(person));
 console.log("Object.values:", Object.values(person));
 console.log("Object.entries:", Object.entries(person));
 console.log("Object.assign:", Object.assign(person, { country: "India" }));
 
-// Checking
-console.log("hasOwnProperty:", person.hasOwnProperty("name"));
+// Property checking
+console.log("hasOwnProperty name:", person.hasOwnProperty("name"));
 
-// Object.freeze & Object.seal
+// Freezing and sealing objects
 let frozen = Object.freeze({ status: "frozen" });
 let sealed = Object.seal({ status: "sealed" });
 
-// Destructuring
+// ==========================================
+// DESTRUCTURING & SPREAD OPERATOR
+// ==========================================
+
 let { name, age } = person;
 console.log("Destructured:", name, age);
 
-// Spread Operator
-let updated = { ...person, age: 27, country: "india" };
-console.log("Spread:", updated);
+let updated = { ...person, age: 27, country: "India" };
+console.log("Spread operator:", updated);
 
-// Nested Objects
+// ==========================================
+// NESTED DATA STRUCTURES
+// ==========================================
+
 let company = {
   name: "Tech Corp",
   location: { city: "Bangalore", country: "India" },
   employees: [{ name: "Amit", role: "Dev" }],
 };
+
 console.log("Nested access:", company.location.city);
 
-// Object Iteration
+// Object iteration
 Object.keys(person).forEach((k) => console.log(`Key: ${k}`));
 Object.values(person).forEach((v) => console.log(`Value: ${v}`));
 Object.entries(person).forEach(([k, v]) => console.log(`${k}=${v}`));
 
-console.log("\n=== COMPLETE ===");
-
-const ratings = [5, 4, 5];
-let sum = 0;
-
-const sumFunction = async (a, b) => a + b;
-
-ratings.forEach(async (rating) => {
-  sum = await sumFunction(sum, rating);
-});
-
-console.log(sum);
-// Naively expected output: 14
-// Actual output: 0
-
-const newArr = [1, 2, 3];
-
-newArr.forEach((value, index, array) => {
-  newArr[index] = value * 2;
-});
-
-console.log(newArr); // [2, 4, 6]
-
-let nSum = 0;
-
-arr = [1, 2, 3, 4, 5];
-
-arr.map((element) => (nSum += element));
-
-console.log(nSum);
-
-let add = arr.reduce((acc, num) => {
-  return (acc += num);
-}, 0);
-
-console.log(add);
+console.log("\n=== Arrays & Objects Mastery Complete ===");

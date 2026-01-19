@@ -1,7 +1,13 @@
 /**
- * CONCEPT 0: STRICT MODE
- * Enforces cleaner code (e.g., catches undeclared variables).
+ * Day 10 - DOM Concepts & Security Masterclass
+ * Topics covered:
+ * - Selectors: Live vs Static collections
+ * - Content access methods (innerText vs textContent vs innerHTML)
+ * - XSS prevention and security
+ * - DOM styling and attribute manipulation
+ * - Event listeners and the event object
  */
+
 "use strict";
 
 // ==========================================
@@ -193,18 +199,16 @@ const keyDisplay = document.querySelector("#key-display");
 const keyCodeDisplay = document.querySelector("#key-code-display");
 
 document.addEventListener("keydown", (e) => {
-  // 1. Visual Feedback
   keyDisplay.textContent = `You pressed: "${e.key}"`;
   keyCodeDisplay.textContent = `Key: ${e.key} | Code: ${e.code}`;
 
-  // 2. Logic Example: Detect specific keys
   if (e.key === "Enter") {
     keyDisplay.style.color = "yellow";
-    console.log("Enter key detected - Submitting...");
+    console.log("Enter key detected");
   } else if (e.key === "Escape") {
     keyDisplay.style.color = "red";
-    console.log("Escape key detected - Closing modal...");
+    console.log("Escape key detected");
   } else {
-    keyDisplay.style.color = "#4ade80"; // Reset to green
+    keyDisplay.style.color = "#4ade80";
   }
 });

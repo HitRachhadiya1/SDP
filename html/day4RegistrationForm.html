@@ -7,10 +7,9 @@
     <link rel="stylesheet" href="../css/registrationForm.css" />
   </head>
   <body>
-    <p class="noteText" style="color: red; background-color: #ffeeee; padding: 10px; border: 1px solid red; display: inline-block;">
-      ⚠️ IMPORTANT: You must enter details exactly as they appear on your Aadhar
-      card or Educational documents.
-    </p>
+    <div class="note-alert">
+      <p>⚠️ IMPORTANT: You must enter details exactly as they appear on your Aadhar card or Educational documents.</p>
+    </div>
 
     <form method="post" enctype="multipart/form-data">
       <fieldset>
@@ -121,7 +120,7 @@
           <input type="password" id="rpwd" name="rpwd" required />
         </div>
 
-        <input type="submit" value="Register" style="padding: 10px 20px" />
+        <input type="submit" value="Register" class="submit-btn" />
       </fieldset>
     </form>
   </body>
