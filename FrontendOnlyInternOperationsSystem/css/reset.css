@@ -1,0 +1,88 @@
+/* 
+ * RESET & VARIABLES
+ * Browser normalization and global custom properties
+ */
+
+:root {
+    /* Colors */
+    --primary-color: #044952;
+    --primary-hover: #003135;
+    --secondary-color: #64748b;
+    --secondary-hover: #475569;
+    --success-color: #10b981;
+    --success-bg: #d1fae5;
+    --success-text: #065f46;
+    --danger-color: #ef4444;
+    --danger-bg: #fee2e2;
+    --danger-text: #991b1b;
+    --warning-color: #f59e0b;
+    --warning-bg: #fef3c7;
+    --warning-text: #92400e;
+    
+    /* Neutrals */
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --bg-body: #f1f5f9;
+    --bg-surface: #ffffff;
+    --border-color: #e2e8f0;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* UI */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--bg-body);
+    -webkit-font-smoothing: antialiased;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button, input, select, textarea {
+    font: inherit;
+    color: inherit;
+    border: none;
+    background: transparent;
+    height: 40px;
+    /* width:100px ; */
+}
+
+button {
+    cursor: pointer;
+}
+
+img, svg {
+    display: block;
+    max-width: 100%;
+}
