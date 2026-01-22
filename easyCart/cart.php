@@ -1,162 +1,184 @@
-<?php require_once "includes/header.php" ?>
+<?php
+require_once "includes/header.php";
+require_once "data/products.php";
 
-    <main>
-      <div class="container">
-        <h1 class="page-title">Shopping Cart</h1>
+// Initialize cart if not exists (session is already started by header.php)
+if (!isset($_SESSION['cart'])) {
+  $_SESSION['cart'] = [];
+}
 
-        <div class="cart-layout">
-          <!-- Cart Items -->
-          <div class="cart-items">
-            <table class="cart-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Subtotal</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="cart-product">
-                      <img
-                        src="products/fashionmen/blackshoes_150.png"
-                        alt="Black Leather Shoes"
-                      />
-                      <div class="cart-product-info">
-                        <h3>Black Leather Shoes</h3>
-                        <p>Genuine Leather - Black</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="price">₹129.99</p>
-                  </td>
-                  <td>
-                    <div class="quantity-group">
-                      <button class="quantity-btn" onclick="this.nextElementSibling.stepDown()">-</button>
-                      <input
-                        type="number"
-                        value="1"
-                        min="1"
-                        max="10"
-                        class="quantity-input"
-                      />
-                      <button class="quantity-btn" onclick="this.previousElementSibling.stepUp()">+</button>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="price">₹129.99</p>
-                  </td>
-                  <td>
-                    <button class="btn btn-danger">Remove</button>
-                  </td>
-                </tr>
+// Handle cart actions
+if (isset($_POST['action'])) {
+  $productId = $_POST['product_id'] ?? '';
 
-                <tr>
-                  <td>
-                    <div class="cart-product">
-                      <img
-                        src="products/fashionmen/menbackpack_150.png"
-                        alt="Men's Backpack"
-                      />
-                      <div class="cart-product-info">
-                        <h3>Men's Backpack</h3>
-                        <p>Waterproof - Black</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="price">₹89.99</p>
-                  </td>
-                  <td>
-                    <div class="quantity-group">
-                      <button class="quantity-btn" onclick="this.nextElementSibling.stepDown()">-</button>
-                      <input
-                        type="number"
-                        value="1"
-                        min="1"
-                        max="10"
-                        class="quantity-input"
-                      />
-                      <button class="quantity-btn" onclick="this.previousElementSibling.stepUp()">+</button>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="price">₹89.99</p>
-                  </td>
-                  <td>
-                    <button class="btn btn-danger">Remove</button>
-                  </td>
-                </tr>
+  switch ($_POST['action']) {
+    case 'update_quantity':
+      $quantity = max(1, intval($_POST['quantity'] ?? 1));
+      if (isset($_SESSION['cart'][$productId])) {
+        $_SESSION['cart'][$productId]['quantity'] = $quantity;
+      }
+      break;
 
+    case 'remove':
+      if (isset($_SESSION['cart'][$productId])) {
+        unset($_SESSION['cart'][$productId]);
+      }
+      break;
+
+    case 'clear':
+      $_SESSION['cart'] = [];
+      break;
+  }
+
+  // Redirect to avoid form resubmission
+  header("Location: cart.php");
+  exit;
+}
+
+// Calculate cart totals
+$subtotal = 0;
+$shipping = 15.00; // Fixed shipping cost
+$taxRate = 0.1015; // 10.15% tax rate
+
+foreach ($_SESSION['cart'] as $productId => $cartItem) {
+  if (isset($products[$productId])) {
+    $subtotal += $products[$productId]['price'] * $cartItem['quantity'];
+  }
+}
+
+$tax = $subtotal * $taxRate;
+$total = $subtotal + $shipping + $tax;
+?>
+
+<main>
+  <div class="container">
+    <h1 class="page-title">Shopping Cart</h1>
+
+    <?php if (empty($_SESSION['cart'])): ?>
+      <div style="text-align: center; padding: 3rem;">
+        <h2>Your cart is empty</h2>
+        <p>Add some products to get started!</p>
+        <a href="productListing.php" class="btn btn-primary" style="margin-top: 1rem;">Continue Shopping</a>
+      </div>
+    <?php else: ?>
+
+      <div class="cart-layout">
+        <!-- Cart Items -->
+        <div class="cart-items">
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($_SESSION['cart'] as $productId => $cartItem):
+                if (!isset($products[$productId])) continue;
+                $product = $products[$productId];
+                $itemTotal = $product['price'] * $cartItem['quantity'];
+                $image150 = str_replace('_300.png', '_150.png', $product['image']);
+              ?>
                 <tr>
                   <td>
                     <div class="cart-product">
                       <img
-                        src="products/appliances/television_150.png"
-                        alt="4K Smart TV"
-                      />
+                        src="<?php echo $image150; ?>"
+                        alt="<?php echo $product['name']; ?>" />
                       <div class="cart-product-info">
-                        <h3>4K Smart TV</h3>
-                        <p>55-inch LED - Black</p>
+                        <h3><?php echo $product['name']; ?></h3>
+                        <p><?php echo $product['description']; ?></p>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <p class="price">₹799.99</p>
+                    <p class="price">₹<?php echo number_format($product['price'], 2); ?></p>
                   </td>
                   <td>
                     <div class="quantity-group">
-                      <button class="quantity-btn" onclick="this.nextElementSibling.stepDown()">-</button>
-                      <input
-                        type="number"
-                        value="1"
-                        min="1"
-                        max="10"
-                        class="quantity-input"
-                      />
-                      <button class="quantity-btn" onclick="this.previousElementSibling.stepUp()">+</button>
+                      <form method="post" action="cart.php" style="display: contents;">
+                        <input type="hidden" name="action" value="update_quantity">
+                        <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+                        <button type="button" class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                        <input
+                          type="number"
+                          name="quantity"
+                          value="<?php echo $cartItem['quantity']; ?>"
+                          min="1"
+                          max="10"
+                          class="quantity-input"
+                          onchange="this.form.submit()" />
+                        <button type="button" class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                      </form>
                     </div>
                   </td>
                   <td>
-                    <p class="price">₹799.99</p>
+                    <p class="price">₹<?php echo number_format($itemTotal, 2); ?></p>
                   </td>
                   <td>
-                    <button class="btn btn-danger">Remove</button>
+                    <form method="post" action="cart.php" style="display: inline;">
+                      <input type="hidden" name="action" value="remove">
+                      <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+                      <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Remove this item from cart?')">
+                        Remove
+                      </button>
+                    </form>
                   </td>
                 </tr>
-              </tbody>
-            </table>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+          <h2>Cart Summary</h2>
+
+          <dl>
+            <dt>Subtotal:</dt>
+            <dd>₹<?php echo number_format($subtotal, 2); ?></dd>
+
+            <dt>Shipping:</dt>
+            <dd>₹<?php echo number_format($shipping, 2); ?></dd>
+
+            <dt>Tax:</dt>
+            <dd>₹<?php echo number_format($tax, 2); ?></dd>
+
+            <dt>Total:</dt>
+            <dd>₹<?php echo number_format($total, 2); ?></dd>
+          </dl>
+
+          <div class="cart-actions">
+            <a href="productListing.php" class="btn btn-secondary">Continue Shopping</a>
+            <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
           </div>
 
-          <!-- Cart Summary -->
-          <div class="cart-summary">
-            <h2>Cart Summary</h2>
-
-            <dl>
-              <dt>Subtotal:</dt>
-              <dd>₹1,019.97</dd>
-
-              <dt>Shipping:</dt>
-              <dd>₹15.00</dd>
-
-              <dt>Tax:</dt>
-              <dd>₹103.50</dd>
-
-              <dt>Total:</dt>
-              <dd>₹1,138.47</dd>
-            </dl>
-
-            <div class="cart-actions">
-              <button class="btn btn-secondary">Continue Shopping</button>
-              <button class="btn btn-primary" onclick="window.location.href = 'checkout.html'">Proceed to Checkout</button>
-            </div>
+          <div style="margin-top: 1rem;">
+            <form method="post" action="cart.php" style="display: inline;">
+              <input type="hidden" name="action" value="clear">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Clear entire cart?')">
+                Clear Cart
+              </button>
+            </form>
           </div>
         </div>
       </div>
-    </main>
+    <?php endif; ?>
+  </div>
+</main>
+
+<script>
+  function updateQuantity(button, change) {
+    const input = button.parentElement.querySelector('.quantity-input');
+    const currentValue = parseInt(input.value);
+    const newValue = Math.max(1, Math.min(10, currentValue + change));
+    input.value = newValue;
+    input.form.submit();
+  }
+</script>
 
 <?php require_once "includes/footer.php"; ?>

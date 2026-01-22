@@ -1,3 +1,15 @@
+<?php
+// Start session for cart count (only if not already started)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$cartCount = 0;
+if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $cartCount += intval($item['quantity'] ?? 0);
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -24,7 +36,7 @@
         <div class="nav-icons">
           <a href="cart.php" class="cart-icon">
             🛒
-            <span class="cart-badge">3</span>
+            <span class="cart-badge"><?php echo $cartCount; ?></span>
           </a>
           <div class="options-icon" id="options-icon">
             ⚙️

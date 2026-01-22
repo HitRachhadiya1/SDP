@@ -15,10 +15,10 @@
       <section id="featured-products" class="featured-products container">
         <h2>Featured Products</h2>
         <div class="products-grid">
-          <a href="productDetails.html?product=blackshoes" class="product-link">
+          <a href="productDetails.php?product=blackshoes" class="product-link">
             <div class="product-card">
               <img
-                src="products/fashionmen/blackshoes_300.png"
+                src="data/images/fashionmen/blackshoes_300.png"
                 alt="Black Leather Shoes"
               />
               <div class="product-card-content">
@@ -27,10 +27,10 @@
               </div>
             </div>
           </a>
-          <a href="productDetails.html?product=menbackpack" class="product-link">
+          <a href="productDetails.php?product=menbackpack" class="product-link">
             <div class="product-card">
               <img
-                src="products/fashionmen/menbackpack_300.png"
+                src="data/images/fashionmen/menbackpack_300.png"
                 alt="Men's Backpack"
               />
               <div class="product-card-content">
@@ -39,10 +39,10 @@
               </div>
             </div>
           </a>
-          <a href="productDetails.html?product=television" class="product-link">
+          <a href="productDetails.php?product=television" class="product-link">
             <div class="product-card">
               <img
-                src="products/appliances/television_300.png"
+                src="data/images/appliances/television_300.png"
                 alt="4K Smart TV"
               />
               <div class="product-card-content">
@@ -51,9 +51,9 @@
               </div>
             </div>
           </a>
-          <a href="productDetails.html?product=stroller" class="product-link">
+          <a href="productDetails.php?product=stroller" class="product-link">
             <div class="product-card">
-              <img src="products/babies/stroller_300.png" alt="Baby Stroller" />
+              <img src="data/images/babies/stroller_300.png" alt="Baby Stroller" />
               <div class="product-card-content">
                 <h3>Baby Stroller</h3>
                 <p class="price">₹249.99</p>
@@ -68,19 +68,19 @@
         <h2>Popular Categories</h2>
         <div class="categories-grid">
           <a
-            href="productListing.html?category=electronics"
+            href="productListing.php?category=appliances"
             class="category-card"
           >
-            <h3>Electronics</h3>
+            <h3>Appliances</h3>
           </a>
-          <a href="productListing.html?category=fashion" class="category-card">
-            <h3>Fashion</h3>
+          <a href="productListing.php?category=fashionmen" class="category-card">
+            <h3>Men's Fashion</h3>
           </a>
-          <a href="productListing.html?category=home" class="category-card">
-            <h3>Home & Living</h3>
+          <a href="productListing.php?category=accessories" class="category-card">
+            <h3>Accessories</h3>
           </a>
-          <a href="productListing.html?category=sports" class="category-card">
-            <h3>Sports</h3>
+          <a href="productListing.php?category=babies" class="category-card">
+            <h3>Baby Products</h3>
           </a>
         </div>
       </section>
@@ -89,28 +89,28 @@
       <section class="popular-brands container">
         <h2>Popular Brands</h2>
         <div class="brands-grid">
-          <a href="productListing.html?brand=apple" class="brand-card">
+          <a href="productListing.php?brand=apple" class="brand-card">
             <span>Apple</span>
           </a>
-          <a href="productListing.html?brand=samsung" class="brand-card">
+          <a href="productListing.php?brand=samsung" class="brand-card">
             <span>Samsung</span>
           </a>
-          <a href="productListing.html?brand=sony" class="brand-card">
+          <a href="productListing.php?brand=sony" class="brand-card">
             <span>Sony</span>
           </a>
-          <a href="productListing.html?brand=nike" class="brand-card">
+          <a href="productListing.php?brand=nike" class="brand-card">
             <span>Nike</span>
           </a>
-          <a href="productListing.html?brand=adidas" class="brand-card">
+          <a href="productListing.php?brand=adidas" class="brand-card">
             <span>Adidas</span>
           </a>
-          <a href="productListing.html?brand=lg" class="brand-card">
+          <a href="productListing.php?brand=lg" class="brand-card">
             <span>LG</span>
           </a>
-          <a href="productListing.html?brand=puma" class="brand-card">
+          <a href="productListing.php?brand=puma" class="brand-card">
             <span>Puma</span>
           </a>
-          <a href="productListing.html?brand=gucci" class="brand-card">
+          <a href="productListing.php?brand=gucci" class="brand-card">
             <span>Gucci</span>
           </a>
         </div>
