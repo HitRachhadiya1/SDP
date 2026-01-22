@@ -11,22 +11,31 @@ if (!isset($_SESSION['cart'])) {
 
 require_once "data/products.php";
 
-// Handle add to cart BEFORE including header
+// Handle cart actions BEFORE including header
 $message = '';
-if (isset($_POST['add_to_cart'])) {
+if (isset($_POST['add_to_cart']) || isset($_POST['update_cart'])) {
   $productId = $_POST['product_id'] ?? '';
   $quantity = max(1, intval($_POST['quantity'] ?? 1));
 
   if (isset($products[$productId])) {
     if (isset($_SESSION['cart'][$productId])) {
-      $_SESSION['cart'][$productId]['quantity'] += $quantity;
+      if (isset($_POST['update_cart'])) {
+        // Update existing quantity
+        $_SESSION['cart'][$productId]['quantity'] = $quantity;
+        $message = 'Quantity updated for "' . $products[$productId]['name'] . '"';
+      } else {
+        // Add to existing quantity
+        $_SESSION['cart'][$productId]['quantity'] += $quantity;
+        $message = '"' . $products[$productId]['name'] . '" added to cart!';
+      }
     } else {
+      // Add new item to cart
       $_SESSION['cart'][$productId] = [
         'quantity' => $quantity,
         'added_at' => time()
       ];
+      $message = '"' . $products[$productId]['name'] . '" added to cart!';
     }
-    $message = '"' . $products[$productId]['name'] . '" added to cart!';
   }
 }
 
@@ -104,14 +113,23 @@ require_once "includes/header.php";
                 </div>
               </a>
               <div class="card-actions">
+                <?php 
+                $inCart = isset($_SESSION['cart'][$productId]);
+                $cartQty = $inCart ? $_SESSION['cart'][$productId]['quantity'] : 1;
+                ?>
                 <form method="post" action="productListing.php" style="width: 100%;">
                   <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
                   <div class="quantity-group">
                     <button type="button" class="quantity-btn" onclick="changeQuantity(this, -1)">-</button>
-                    <input type="number" name="quantity" value="1" min="1" max="10" class="quantity-input" id="qty-<?php echo $productId; ?>" />
+                    <input type="number" name="quantity" value="<?php echo $cartQty; ?>" min="1" max="10" class="quantity-input" id="qty-<?php echo $productId; ?>" onchange="this.form.submit()" />
                     <button type="button" class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
                   </div>
-                  <button type="submit" name="add_to_cart" class="add-to-cart" style="opacity: 1; transform: none; margin: 0; width: 100%;">Add to Cart</button>
+                  <?php if ($inCart): ?>
+                      <button type="submit" name="update_cart" class="add-to-cart btn-main-action btn-update-cart">Update Quantity</button>
+                      <a href="cart.php" class="view-cart link-view-cart">View Cart</a>
+                  <?php else: ?>
+                      <button type="submit" name="add_to_cart" class="add-to-cart btn-main-action">Add to Cart</button>
+                  <?php endif; ?>
                 </form>
               </div>
             </div>

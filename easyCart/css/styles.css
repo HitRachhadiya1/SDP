@@ -327,8 +327,7 @@ main {
   font-weight: 700;
   padding: 1rem 3rem;
   font-size: 1.1rem;
-    border-radius: 10px;
-
+  border-radius: 10px;
 }
 
 .btn-primary:hover,
@@ -362,25 +361,6 @@ button.danger:hover {
   background: #dc2626;
 }
 
-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: var(--border-radius-sm);
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
-  background: var(--primary-color);
-  color: var(--white);
-}
-
-button:hover {
-  background: var(--primary-dark);
-}
-
 /* Section Styles */
 section {
   margin-bottom: 6rem;
@@ -405,8 +385,6 @@ section > h2 {
 .featured-products .products-grid {
   grid-template-columns: repeat(4, 1fr);
 }
-
-
 
 .product-card {
   background: var(--white);
@@ -465,24 +443,52 @@ section > h2 {
 .price {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--primary-color);
-  padding: 0 1rem 1rem;
+}
+
+.product-card .link-view-cart {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #6c757d;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.9em;
 }
 
 .product-card .add-to-cart {
-  margin: 0 1rem 1.5rem;
-  width: calc(100% - 2rem);
   border-radius: var(--border-radius-sm);
-  opacity: 0;
-  transform: translateY(10px);
   transition: var(--transition);
 }
 
-.product-card:hover .add-to-cart {
+/* Make main action buttons always visible */
+.product-card .btn-main-action {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+  margin: 8px 0 0 0;
+  width: 100%;
 }
 
+.product-card .btn-update-cart {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+/* Corrected class for the view cart link */
+.product-card .view-cart {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #6c757d;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
 /* Categories Grid */
 .categories-grid {
   display: grid;
@@ -606,8 +612,14 @@ section > h2 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .filter-section {
@@ -776,8 +788,7 @@ section > h2 {
   text-align: center;
   padding: 1rem 2rem;
   font-size: 1.1rem;
-    border-radius: 10px;
-
+  border-radius: 10px;
 }
 
 /* Cart Page */
@@ -1379,7 +1390,7 @@ footer {
 
 @media (max-width: 768px) {
   .hero-content h2 {
-    font-size: 2.0rem;
+    font-size: 2rem;
   }
 
   nav {
@@ -1415,7 +1426,7 @@ footer {
     background: var(--white);
     padding: 2rem 1rem;
     transition: left 0.3s ease;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     overflow-y: auto;
   }
@@ -1423,7 +1434,7 @@ footer {
   .nav-menu.active {
     left: 0;
   }
-  
+
   .nav-menu li {
     width: 100%;
     margin-bottom: 1rem;
@@ -1436,9 +1447,9 @@ footer {
     background: transparent;
     border-radius: var(--border-radius-sm);
   }
-  
+
   .nav-menu li a:hover {
-     background: var(--gray-100);
+    background: var(--gray-100);
   }
 
   .product-listing-layout {
@@ -1463,21 +1474,23 @@ footer {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-  
+
   .featured-products .products-grid,
   .categories-grid,
   .brands-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-  
-  .category-card, .brand-card {
-      padding: 1.5rem; /* Reduced padding */
-      min-height: auto;
+
+  .category-card,
+  .brand-card {
+    padding: 1.5rem; /* Reduced padding */
+    min-height: auto;
   }
-  
-  .category-card h3, .brand-card span {
-      font-size: 1rem; /* Reduced font size */
+
+  .category-card h3,
+  .brand-card span {
+    font-size: 1rem; /* Reduced font size */
   }
 
   .product-card img {
