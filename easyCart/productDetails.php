@@ -67,10 +67,26 @@ $image600 = str_replace('_300.png', '_600.png', $product['image']);
     <div class="product-detail">
       <!-- Product Image Section -->
       <section class="product-image-section">
-        <img
-          src="<?php echo $image600; ?>"
-          alt="<?php echo $product['name']; ?>"
-          class="main-image" />
+        <div class="main-image-container">
+          <img
+            src="<?php echo isset($product['images']) ? $product['images'][0] : $image600; ?>"
+            alt="<?php echo $product['name']; ?>"
+            class="main-image"
+            id="main-product-image" />
+        </div>
+
+        <?php if (isset($product['images']) && count($product['images']) > 1): ?>
+          <div class="thumbnail-gallery">
+            <?php foreach ($product['images'] as $index => $image): ?>
+              <img
+                src="<?php echo str_replace('_600.png', '_150.png', $image); ?>"
+                alt="<?php echo $product['name']; ?> view <?php echo $index + 1; ?>"
+                class="thumbnail-image <?php echo $index === 0 ? 'active' : ''; ?>"
+                data-full-image="<?php echo $image; ?>"
+                onclick="switchProductImage(this)" />
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
       </section>
 
       <!-- Product Information Section -->
@@ -146,20 +162,6 @@ $image600 = str_replace('_300.png', '_600.png', $product['image']);
   </div>
 </main>
 
-<script>
-  // Sync quantity inputs
-  document.getElementById('quantity').addEventListener('input', function() {
-    document.getElementById('cart_quantity').value = this.value;
-  });
-
-  // Update hidden quantity when +/- buttons are clicked
-  document.querySelectorAll('.quantity-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      setTimeout(() => {
-        document.getElementById('cart_quantity').value = document.getElementById('quantity').value;
-      }, 10);
-    });
-  });
-</script>
+<script src="js/productDetails.js"></script>
 
 <?php require_once "includes/footer.php"; ?>

@@ -113,7 +113,7 @@ require_once "includes/header.php";
                 </div>
               </a>
               <div class="card-actions">
-                <?php 
+                <?php
                 $inCart = isset($_SESSION['cart'][$productId]);
                 $cartQty = $inCart ? $_SESSION['cart'][$productId]['quantity'] : 1;
                 ?>
@@ -125,10 +125,10 @@ require_once "includes/header.php";
                     <button type="button" class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
                   </div>
                   <?php if ($inCart): ?>
-                      <button type="submit" name="update_cart" class="add-to-cart btn-main-action btn-update-cart">Update Quantity</button>
-                      <a href="cart.php" class="view-cart link-view-cart">View Cart</a>
+                    <button type="submit" name="update_cart" class="add-to-cart btn-main-action btn-update-cart">Update Quantity</button>
+                    <a href="cart.php" class="view-cart link-view-cart">View Cart</a>
                   <?php else: ?>
-                      <button type="submit" name="add_to_cart" class="add-to-cart btn-main-action">Add to Cart</button>
+                    <button type="submit" name="add_to_cart" class="add-to-cart btn-main-action">Add to Cart</button>
                   <?php endif; ?>
                 </form>
               </div>
@@ -140,13 +140,6 @@ require_once "includes/header.php";
   </div>
 </main>
 
-<script>
-  function changeQuantity(button, change) {
-    const input = button.parentElement.querySelector('.quantity-input');
-    const currentValue = parseInt(input.value);
-    const newValue = Math.max(1, Math.min(10, currentValue + change));
-    input.value = newValue;
-  }
-</script>
+<script src="js/productListing.js"></script>
 
 <?php require_once "includes/footer.php"; ?>

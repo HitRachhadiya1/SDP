@@ -171,14 +171,6 @@ $total = $subtotal + $shipping + $tax;
   </div>
 </main>
 
-<script>
-  function updateQuantity(button, change) {
-    const input = button.parentElement.querySelector('.quantity-input');
-    const currentValue = parseInt(input.value);
-    const newValue = Math.max(1, Math.min(10, currentValue + change));
-    input.value = newValue;
-    input.form.submit();
-  }
-</script>
+<script src="js/cart.js"></script>
 
 <?php require_once "includes/footer.php"; ?>

@@ -126,6 +126,11 @@ $products = [
         'name' => 'Black Leather Shoes',
         'price' => 129.99,
         'image' => 'data/images/fashionmen/blackshoes_300.png',
+        'images' => [
+            'data/images/fashionmen/blackshoes_600.png',
+            'data/images/fashionmen/blackshoes_300.png',
+            'data/images/fashionmen/sneakers_600.png'
+        ],
         'category' => 'fashionmen',
         'brand' => 'nike',
         'description' => 'Premium black leather shoes perfect for formal occasions',
@@ -714,4 +719,3 @@ $products = [
         'specs' => ['Automatic transmission', 'Smooth shifting', 'Wear protection', '1 gallon']
     ]
 ];
-?>

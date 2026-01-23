@@ -461,13 +461,20 @@ section > h2 {
 .product-card .add-to-cart {
   border-radius: var(--border-radius-sm);
   transition: var(--transition);
+  padding: 0.6rem 0;
+  border-color: var(--primary-color);
+  background-color: var(--primary-dark);
+  color: white;
+  /* font-weight: 600; */
+  cursor: pointer;
+  font-size: 0.9em;
 }
 
 /* Make main action buttons always visible */
 .product-card .btn-main-action {
   opacity: 1;
   transform: none;
-  margin: 8px 0 0 0;
+  margin: 15px 0 0 0;
   width: 100%;
 }
 
@@ -484,9 +491,8 @@ section > h2 {
   text-decoration: none;
   margin-top: 8px;
   padding: 8px;
-  background-color: #6c757d;
+  background-color: var(--gray-700);
   color: white;
-  border-radius: 4px;
   font-size: 0.9em;
 }
 /* Categories Grid */
@@ -708,6 +714,41 @@ section > h2 {
   width: 100%;
   border-radius: var(--border-radius);
   background: var(--gray-100);
+}
+
+.main-image-container {
+  margin-bottom: 1rem;
+}
+
+/* Thumbnail Gallery */
+.thumbnail-gallery {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.thumbnail-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--transition);
+  opacity: 0.7;
+}
+
+.thumbnail-image:hover {
+  opacity: 1;
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.thumbnail-image.active {
+  opacity: 1;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
 .product-info-section h1 {
@@ -1088,6 +1129,30 @@ textarea:focus {
 
 input::placeholder {
   color: var(--gray-400);
+}
+
+/* Form Validation Styles */
+.form-group {
+  position: relative;
+}
+
+.error-message {
+  color: var(--danger-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+input.error,
+select.error {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+input.error:focus,
+select.error:focus {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 /* Shipping Options */

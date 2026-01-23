@@ -326,53 +326,6 @@ $total = $subtotal + $shippingCost + $tax;
   </div>
 </main>
 
-<script>
-  // Update shipping cost and total when shipping method changes
-  function updateShippingTotal() {
-    const shippingCosts = {
-      'standard': 15.00,
-      'express': 25.00,
-      'overnight': 40.00
-    };
-
-    const selectedShipping = document.querySelector('input[name="shipping"]:checked').value;
-    const newShippingCost = shippingCosts[selectedShipping];
-
-    // Find the order summary elements
-    const orderSummary = document.querySelector('.order-summary dl');
-    if (!orderSummary) return;
-
-    const dts = orderSummary.querySelectorAll('dt');
-    const dds = orderSummary.querySelectorAll('dd');
-
-    // Update shipping cost (usually the second dd element)
-    if (dds[1]) {
-      dds[1].textContent = '₹' + newShippingCost.toFixed(2);
-    }
-
-    // Get subtotal and tax values
-    const subtotalText = dds[0].textContent;
-    const taxText = dds[2].textContent;
-
-    const subtotal = parseFloat(subtotalText.replace('₹', '').replace(',', ''));
-    const tax = parseFloat(taxText.replace('₹', '').replace(',', ''));
-
-    // Calculate new total
-    const newTotal = subtotal + newShippingCost + tax;
-
-    // Update total (usually the fourth dd element)
-    if (dds[3]) {
-      dds[3].textContent = '₹' + newTotal.toFixed(2);
-    }
-  }
-
-  // Add event listeners to shipping radio buttons
-  document.querySelectorAll('input[name="shipping"]').forEach(radio => {
-    radio.addEventListener('change', updateShippingTotal);
-  });
-
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', updateShippingTotal);
-</script>
+<script src="js/checkout.js"></script>
 
 <?php require_once "includes/footer.php"; ?>
