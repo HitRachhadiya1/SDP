@@ -11,6 +11,15 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeImageGallery();
 });
 
+function changeQty(amount) {
+  const input = document.getElementById("quantity");
+  let value = parseInt(input.value) || 1;
+  value += amount;
+  if (value < 1) value = 1;
+  if (value > 10) value = 10;
+  input.value = value;
+}
+
 // Sync quantity inputs between visible input and hidden form field
 function initializeQuantitySync() {
   const quantityInput = document.getElementById("quantity");

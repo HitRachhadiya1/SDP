@@ -25,19 +25,25 @@ $product = $products[$productId];
 
 // Handle add to cart BEFORE including header
 $message = '';
-if (isset($_POST['add_to_cart'])) {
+if (isset($_POST['add_to_cart']) || isset($_POST['update_cart'])) {
   $quantity = max(1, intval($_POST['quantity'] ?? 1));
+  $isUpdate = isset($_POST['update_cart']);
 
   if (isset($_SESSION['cart'][$productId])) {
-    $_SESSION['cart'][$productId]['quantity'] += $quantity;
+    if ($isUpdate) {
+      $_SESSION['cart'][$productId]['quantity'] = $quantity;
+    } else {
+      $_SESSION['cart'][$productId]['quantity'] += $quantity;
+    }
   } else {
+    // New product - add to cart with selected quantity
     $_SESSION['cart'][$productId] = [
       'quantity' => $quantity,
       'added_at' => time()
     ];
   }
 
-  $message = 'Product added to cart successfully!';
+  $message = $isUpdate ? 'Quantity updated successfully!' : 'Product added to cart successfully!';
 }
 
 require_once "includes/header.php";
@@ -102,16 +108,20 @@ $image600 = str_replace('_300.png', '_600.png', $product['image']);
         <div class="quantity-section" style="margin-bottom: 2rem;">
           <label for="quantity" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--gray-700);">Quantity:</label>
           <div class="quantity-group" style="width: fit-content;">
-            <button class="quantity-btn" onclick="this.nextElementSibling.stepDown()">-</button>
+            <!-- <button class="quantity-btn" onclick="this.nextElementSibling.stepDown()">-</button> -->
+            <button type="button" class="quantity-btn" onclick="changeQty(-1)">-</button>
             <input
               type="number"
               id="quantity"
               name="quantity"
-              value="1"
+              form="add-to-cart-form"
+              value="<?php echo $_SESSION['cart'][$productId]['quantity'] ?? 1; ?>"
               min="1"
               max="10"
               class="quantity-input" />
-            <button class="quantity-btn" onclick="this.previousElementSibling.stepUp()">+</button>
+            <!-- <button class="quantity-btn" onclick="this.previousElementSibling.stepUp()">+</button> -->
+            <button type="button" class="quantity-btn" onclick="changeQty(1)">+</button>
+
           </div>
         </div>
 
@@ -150,9 +160,12 @@ $image600 = str_replace('_300.png', '_600.png', $product['image']);
 
         <!-- Add to Cart Form -->
         <div class="action-section">
-          <form method="post" action="productDetails.php?product=<?php echo $productId; ?>" style="display: inline;">
-            <input type="hidden" name="quantity" id="cart_quantity" value="1">
-            <button type="submit" name="add_to_cart" class="btn btn-primary">Add to Cart</button>
+          <form id="add-to-cart-form" method="post" action="productDetails.php?product=<?php echo $productId; ?>" style="display: inline;">
+            <?php if (isset($_SESSION['cart'][$productId])): ?>
+              <button type="submit" name="update_cart" class="btn btn-primary">Update Quantity</button>
+            <?php else: ?>
+              <button type="submit" name="add_to_cart" class="btn btn-primary">Add to Cart</button>
+            <?php endif; ?>
           </form>
           <button class="btn btn-secondary">Add to Wishlist</button>
           <a href="cart.php" class="btn btn-outline" style="margin-left: 0.5rem;">View Cart</a>

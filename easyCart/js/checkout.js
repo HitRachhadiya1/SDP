@@ -12,55 +12,61 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Update shipping cost and total when shipping method changes
-function updateShippingTotal() {
-  const shippingCosts = {
-    standard: 15.0,
-    express: 25.0,
-    overnight: 40.0,
-  };
-
-  const selectedShipping = document.querySelector(
-    'input[name="shipping"]:checked',
-  ).value;
-  const newShippingCost = shippingCosts[selectedShipping];
-
-  // Find the order summary elements
-  const orderSummary = document.querySelector(".order-summary dl");
-  if (!orderSummary) return;
-
-  const dts = orderSummary.querySelectorAll("dt");
-  const dds = orderSummary.querySelectorAll("dd");
-
-  // Update shipping cost (usually the second dd element)
-  if (dds[1]) {
-    dds[1].textContent = "₹" + newShippingCost.toFixed(2);
-  }
-
-  // Get subtotal and tax values
-  const subtotalText = dds[0].textContent;
-  const taxText = dds[2].textContent;
-
-  const subtotal = parseFloat(subtotalText.replace("₹", "").replace(",", ""));
-  const tax = parseFloat(taxText.replace("₹", "").replace(",", ""));
-
-  // Calculate new total
-  const newTotal = subtotal + newShippingCost + tax;
-
-  // Update total (usually the fourth dd element)
-  if (dds[3]) {
-    dds[3].textContent = "₹" + newTotal.toFixed(2);
+function calculateShippingCost(method, subtotal) {
+  switch (method) {
+    case "express":
+      return Math.min(80, subtotal * 0.1);
+    case "white_glove":
+      return Math.min(150, subtotal * 0.05);
+    case "freight":
+      return Math.max(200, subtotal * 0.03);
+    case "standard":
+    default:
+      return 40;
   }
 }
 
-// Initialize shipping method change listeners
+function formatCurrency(value) {
+  return `₹${value.toFixed(2)}`;
+}
+
 function initializeShippingUpdates() {
-  // Add event listeners to shipping radio buttons
-  document.querySelectorAll('input[name="shipping"]').forEach((radio) => {
-    radio.addEventListener("change", updateShippingTotal);
+  const shippingInputs = document.querySelectorAll("input[name='shipping']");
+  const subtotalEl = document.getElementById("summary-subtotal");
+  const taxEl = document.getElementById("summary-tax");
+  const shippingEl = document.getElementById("summary-shipping");
+  const totalEl = document.getElementById("summary-total");
+
+  if (
+    !shippingInputs.length ||
+    !subtotalEl ||
+    !taxEl ||
+    !shippingEl ||
+    !totalEl
+  ) {
+    return;
+  }
+
+  const subtotal = parseFloat(subtotalEl.dataset.subtotal || "0");
+  const taxRate = parseFloat(taxEl.dataset.taxRate || "0");
+
+  const updateSummary = () => {
+    const selected = document.querySelector("input[name='shipping']:checked");
+    const method = selected ? selected.value : "standard";
+    const shippingCost = calculateShippingCost(method, subtotal);
+    const tax = (subtotal + shippingCost) * taxRate;
+    const total = subtotal + shippingCost + tax;
+
+    shippingEl.textContent = formatCurrency(shippingCost);
+    taxEl.textContent = formatCurrency(tax);
+    totalEl.textContent = formatCurrency(total);
+  };
+
+  shippingInputs.forEach((input) => {
+    input.addEventListener("change", updateSummary);
   });
 
-  // Initialize on page load
-  updateShippingTotal();
+  updateSummary();
 }
 
 // Checkout form validation functions

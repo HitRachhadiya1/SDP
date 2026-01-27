@@ -46,6 +46,7 @@ require_once "includes/header.php";
 <main>
   <div class="container">
     <h1 class="page-title">Our Products</h1>
+    <p class="product-count" style="margin-bottom: 1rem; color: var(--gray-600);">Showing <?php echo count($products); ?> products</p>
 
     <!-- Success Message -->
     <?php if ($message): ?>

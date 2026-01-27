@@ -7,24 +7,41 @@ if (empty($_SESSION['cart'])) {
   header("Location: cart.php");
   exit;
 }
-
-// Calculate cart totals
+$shippingMethod = $_POST['shipping'] ?? 'standard';
+$shippingCost = 0;
+$totalQuantity = 0;
 $subtotal = 0;
-$taxRate = 0.1015; // 10.15% tax rate
+$taxRate = 0.18; // 18% tax rate
+$message = '';
+$orderPlaced = false;
 
+foreach ($_SESSION['cart'] as $cartItem) {
+  $totalQuantity += $cartItem['quantity'];
+}
+// Calculate cart totals
 foreach ($_SESSION['cart'] as $productId => $cartItem) {
   if (isset($products[$productId])) {
     $subtotal += $products[$productId]['price'] * $cartItem['quantity'];
   }
 }
 
-// Default shipping cost (standard shipping)
-$shippingCost = 15.00;
-$shippingMethod = 'standard';
+
+function calculateShippingCost($method, $subtotal)
+{
+  switch ($method) {
+    case 'express':
+      return min(80, $subtotal * 0.10);
+    case 'white_glove':
+      return min(150, $subtotal * 0.05);
+    case 'freight':
+      return max(200, $subtotal * 0.03);
+    case 'standard':
+    default:
+      return 40;
+  }
+}
 
 // Handle form submission
-$message = '';
-$orderPlaced = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Validate required fields
@@ -44,19 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (empty($missing_fields)) {
     // Get shipping method
     $shippingMethod = $_POST['shipping'] ?? 'standard';
-    switch ($shippingMethod) {
-      case 'express':
-        $shippingCost = 25.00;
-        break;
-      case 'overnight':
-        $shippingCost = 40.00;
-        break;
-      default:
-        $shippingCost = 15.00;
-    }
+    $shippingCost = calculateShippingCost($shippingMethod, $subtotal);
 
     // Calculate final totals
-    $tax = $subtotal * $taxRate;
+    $tax = ($subtotal + $shippingCost) * $taxRate;
     $total = $subtotal + $shippingCost + $tax;
 
     // Here you would typically save the order to a database
@@ -97,7 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Calculate final totals for display
-$tax = $subtotal * $taxRate;
+$shippingCost = calculateShippingCost($shippingMethod, $subtotal);
+$tax = ($subtotal + $shippingCost) * $taxRate;
 $total = $subtotal + $shippingCost + $tax;
 ?>
 
@@ -122,9 +131,9 @@ $total = $subtotal + $shippingCost + $tax;
 
       <div class="checkout-layout">
         <form method="post" action="checkout.php" class="checkout-form">
+          <!-- <input type="hidden" id="totalqty" value="<?php echo $totalQuantity; ?>"> -->
           <div class="checkout-section">
             <h2>Shipping Options</h2>
-
             <div class="shipping-options">
               <div class="shipping-option">
                 <input
@@ -132,11 +141,11 @@ $total = $subtotal + $shippingCost + $tax;
                   id="standard"
                   name="shipping"
                   value="standard"
-                  checked />
+                  <?php echo $shippingMethod === 'standard' ? 'checked' : ''; ?> />
                 <label for="standard" class="shipping-option-info">
                   <strong>Standard Shipping</strong>
                   <span>5-7 business days</span>
-                  <span class="shipping-option-price">₹15.00</span>
+                  <span class="shipping-option-price">₹40.00 flat</span>
                 </label>
               </div>
 
@@ -145,24 +154,40 @@ $total = $subtotal + $shippingCost + $tax;
                   type="radio"
                   id="express"
                   name="shipping"
-                  value="express" />
+                  value="express"
+                  <?php echo $shippingMethod === 'express' ? 'checked' : ''; ?> />
                 <label for="express" class="shipping-option-info">
                   <strong>Express Shipping</strong>
                   <span>2-3 business days</span>
-                  <span class="shipping-option-price">₹25.00</span>
+                  <span class="shipping-option-price">₹80 or 10% (whichever is lower)</span>
                 </label>
               </div>
 
               <div class="shipping-option">
                 <input
                   type="radio"
-                  id="overnight"
+                  id="white_glove"
                   name="shipping"
-                  value="overnight" />
-                <label for="overnight" class="shipping-option-info">
-                  <strong>Overnight Shipping</strong>
-                  <span>1 business day</span>
-                  <span class="shipping-option-price">₹40.00</span>
+                  value="white_glove"
+                  <?php echo $shippingMethod === 'white_glove' ? 'checked' : ''; ?> />
+                <label for="white_glove" class="shipping-option-info">
+                  <strong>White Glove Delivery</strong>
+                  <span>Scheduled delivery</span>
+                  <span class="shipping-option-price">₹150 or 5% (whichever is lower)</span>
+                </label>
+              </div>
+
+              <div class="shipping-option">
+                <input
+                  type="radio"
+                  id="freight"
+                  name="shipping"
+                  value="freight"
+                  <?php echo $shippingMethod === 'freight' ? 'checked' : ''; ?> />
+                <label for="freight" class="shipping-option-info">
+                  <strong>Freight Shipping</strong>
+                  <span>Large items / bulk</span>
+                  <span class="shipping-option-price">3% of subtotal (min ₹200)</span>
                 </label>
               </div>
             </div>
@@ -307,16 +332,16 @@ $total = $subtotal + $shippingCost + $tax;
 
           <dl>
             <dt>Subtotal:</dt>
-            <dd>₹<?php echo number_format($subtotal, 2); ?></dd>
+            <dd id="summary-subtotal" data-subtotal="<?php echo $subtotal; ?>">₹<?php echo number_format($subtotal, 2); ?></dd>
 
             <dt>Shipping:</dt>
-            <dd>₹<?php echo number_format($shippingCost, 2); ?></dd>
+            <dd id="summary-shipping">₹<?php echo number_format($shippingCost, 2); ?></dd>
 
             <dt>Tax:</dt>
-            <dd>₹<?php echo number_format($tax, 2); ?></dd>
+            <dd id="summary-tax" data-tax-rate="<?php echo $taxRate; ?>">₹<?php echo number_format($tax, 2); ?></dd>
 
             <dt style="font-weight: 700; color: var(--gray-900)">Total:</dt>
-            <dd style="font-weight: 700; color: var(--primary-color)">
+            <dd id="summary-total" style="font-weight: 700; color: var(--primary-color)">
               ₹<?php echo number_format($total, 2); ?>
             </dd>
           </dl>

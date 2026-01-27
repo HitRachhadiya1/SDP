@@ -13,8 +13,14 @@ if (isset($_POST['action'])) {
 
   switch ($_POST['action']) {
     case 'update_quantity':
-      $quantity = max(1, intval($_POST['quantity'] ?? 1));
       if (isset($_SESSION['cart'][$productId])) {
+        $currentQuantity = $_SESSION['cart'][$productId]['quantity'];
+        $change = isset($_POST['change']) ? intval($_POST['change']) : 0;
+        if ($change !== 0) {
+          $quantity = max(1, min(10, $currentQuantity + $change));
+        } else {
+          $quantity = max(1, intval($_POST['quantity'] ?? 1));
+        }
         $_SESSION['cart'][$productId]['quantity'] = $quantity;
       }
       break;
@@ -31,20 +37,24 @@ if (isset($_POST['action'])) {
   }
 
   // Redirect to avoid form resubmission
-  header("Location: cart.php");
-  exit;
+  // header("Location: cart.php");
+  // exit;
 }
 
 // Calculate cart totals
 $subtotal = 0;
-$shipping = 15.00; // Fixed shipping cost
+$total_quantity = 0;
+$shipping_rate = 20.00; // Shipping cost per item
 $taxRate = 0.1015; // 10.15% tax rate
 
 foreach ($_SESSION['cart'] as $productId => $cartItem) {
+  $total_quantity += $cartItem['quantity'];
   if (isset($products[$productId])) {
     $subtotal += $products[$productId]['price'] * $cartItem['quantity'];
   }
 }
+
+$shipping = $shipping_rate * $total_quantity;
 
 $tax = $subtotal * $taxRate;
 $total = $subtotal + $shipping + $tax;
@@ -77,7 +87,7 @@ $total = $subtotal + $shipping + $tax;
             </thead>
             <tbody>
               <?php foreach ($_SESSION['cart'] as $productId => $cartItem):
-                if (!isset($products[$productId])) continue;
+                // if (!isset($products[$productId])) continue;
                 $product = $products[$productId];
                 $itemTotal = $product['price'] * $cartItem['quantity'];
                 $image150 = str_replace('_300.png', '_150.png', $product['image']);
@@ -102,7 +112,7 @@ $total = $subtotal + $shipping + $tax;
                       <form method="post" action="cart.php" style="display: contents;">
                         <input type="hidden" name="action" value="update_quantity">
                         <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
-                        <button type="button" class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                        <button type="submit" name="change" value="-1" class="quantity-btn">-</button>
                         <input
                           type="number"
                           name="quantity"
@@ -110,8 +120,9 @@ $total = $subtotal + $shipping + $tax;
                           min="1"
                           max="10"
                           class="quantity-input"
-                          onchange="this.form.submit()" />
-                        <button type="button" class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                          />
+                        <button type="submit" name="change" value="1" class="quantity-btn">+</button>
+                        <!-- <button type="submit" class="btn btn-secondary" style="margin-left: 0.5rem;">Update</button> -->
                       </form>
                     </div>
                   </td>
@@ -170,7 +181,5 @@ $total = $subtotal + $shipping + $tax;
     <?php endif; ?>
   </div>
 </main>
-
-<script src="js/cart.js"></script>
 
 <?php require_once "includes/footer.php"; ?>
