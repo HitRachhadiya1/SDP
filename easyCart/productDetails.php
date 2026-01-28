@@ -63,13 +63,6 @@ $image600 = str_replace('_300.png', '_600.png', $product['image']);
       </a>
     </div>
 
-    <!-- Success Message -->
-    <?php if ($message): ?>
-      <div style="background: var(--success-bg, #d4edda); color: var(--success-color, #155724); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 2rem; border: 1px solid var(--success-border, #c3e6cb);">
-        <?php echo $message; ?>
-      </div>
-    <?php endif; ?>
-
     <div class="product-detail">
       <!-- Product Image Section -->
       <section class="product-image-section">

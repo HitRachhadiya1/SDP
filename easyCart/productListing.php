@@ -48,13 +48,6 @@ require_once "includes/header.php";
     <h1 class="page-title">Our Products</h1>
     <p class="product-count" style="margin-bottom: 1rem; color: var(--gray-600);">Showing <?php echo count($products); ?> products</p>
 
-    <!-- Success Message -->
-    <?php if ($message): ?>
-      <div style="background: var(--success-bg, #d4edda); color: var(--success-color, #155724); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1rem; border: 1px solid var(--success-border, #c3e6cb);">
-        <?php echo $message; ?>
-      </div>
-    <?php endif; ?>
-
     <button class="btn btn-secondary" onclick="document.querySelector('.product-listing-layout').classList.toggle('filters-active'); document.querySelector('.filter-sidebar').classList.toggle('active');" style="margin-bottom: 2rem;">
       <i style="margin-right: 0.5rem;">⚙️</i> Filter Products
     </button>
@@ -118,11 +111,11 @@ require_once "includes/header.php";
                 $inCart = isset($_SESSION['cart'][$productId]);
                 $cartQty = $inCart ? $_SESSION['cart'][$productId]['quantity'] : 1;
                 ?>
-                <form method="post" action="productListing.php" style="width: 100%;">
+                <form method="post" action="productListing.php" class="product-cart-form" style="width: 100%;">
                   <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
                   <div class="quantity-group">
                     <button type="button" class="quantity-btn" onclick="changeQuantity(this, -1)">-</button>
-                    <input type="number" name="quantity" value="<?php echo $cartQty; ?>" min="1" max="10" class="quantity-input" id="qty-<?php echo $productId; ?>" onchange="this.form.submit()" />
+                    <input type="number" name="quantity" value="<?php echo $cartQty; ?>" min="1" max="10" class="quantity-input" id="qty-<?php echo $productId; ?>" />
                     <button type="button" class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
                   </div>
                   <?php if ($inCart): ?>

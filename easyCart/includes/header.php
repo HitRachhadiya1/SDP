@@ -58,3 +58,5 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         </div>
       </nav>
     </header>
+
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
