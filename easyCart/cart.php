@@ -2,43 +2,17 @@
 require_once "includes/header.php";
 require_once "data/products.php";
 
-// Initialize cart if not exists (session is already started by header.php)
+// Check if user is logged in
+if (!isset($_SESSION['logged_in_user'])) {
+  // If not logged in, redirect to login page
+  header("Location: login.php");
+  exit;
+}
+
+// Ensure cart exists for logged in user
 if (!isset($_SESSION['cart'])) {
   $_SESSION['cart'] = [];
 }
-
-// if (isset($_POST['action'])) {
-//   $productId = $_POST['product_id'] ?? '';
- 
-//   switch ($_POST['action']) {
-//     case 'update_quantity':
-//       if (isset($_SESSION['cart'][$productId])) {
-//         $currentQuantity = $_SESSION['cart'][$productId]['quantity'];
-//         $change = isset($_POST['change']) ? intval($_POST['change']) : 0;
-//         if ($change !== 0) {
-//           $quantity = max(1, min(10, $currentQuantity + $change));
-//         } else {
-//           $quantity = max(1, intval($_POST['quantity'] ?? 1));
-//         }
-//         $_SESSION['cart'][$productId]['quantity'] = $quantity;
-//       }
-//       break;
- 
-//     case 'remove':
-//       if (isset($_SESSION['cart'][$productId])) {
-//         unset($_SESSION['cart'][$productId]);
-//       }
-//       break;
- 
-//     case 'clear':
-//       $_SESSION['cart'] = [];
-//       break;
-//   }
- 
-//   // Redirect to avoid form resubmission
-//   // header("Location: cart.php");
-//   // exit;
-// }
 
 // Calculate cart totals
 $subtotal = 0;
@@ -54,7 +28,6 @@ foreach ($_SESSION['cart'] as $productId => $cartItem) {
 }
 
 $shipping = $shipping_rate * $total_quantity;
-
 $tax = ($subtotal + $shipping) * $taxRate;
 $total = $subtotal + $shipping + $tax;
 ?>
@@ -114,8 +87,7 @@ $total = $subtotal + $shipping + $tax;
                         value="<?php echo $cartItem['quantity']; ?>"
                         min="1"
                         max="10"
-                        class="quantity-input"
-                        />
+                        class="quantity-input" />
                       <button type="button" class="quantity-btn" data-change="1">+</button>
                     </div>
                   </td>

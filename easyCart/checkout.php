@@ -71,7 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // For now, we'll just clear the cart and show success message
 
     // Store order details in session for confirmation
-    $_SESSION['last_order'] = [
+    $orderData = [
+      'id' => 'ORD-' . date('Ymd') . '-' . uniqid(),
       'items' => $_SESSION['cart'],
       'subtotal' => $subtotal,
       'shipping' => $shippingCost,
@@ -87,8 +88,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'zipcode' => $_POST['zipcode'],
         'country' => $_POST['country']
       ],
-      'order_date' => time()
+      'order_date' => time(),
+      'status' => 'processing',
+      'status_text' => 'Processing'
     ];
+
+    // Save to user's order history if logged in
+    if (isset($_SESSION['logged_in_user'])) {
+      $userId = $_SESSION['logged_in_user']['id'];
+      if (!isset($_SESSION['user_orders'])) {
+        $_SESSION['user_orders'] = [];
+      }
+      if (!isset($_SESSION['user_orders'][$userId])) {
+        $_SESSION['user_orders'][$userId] = [];
+      }
+      $_SESSION['user_orders'][$userId][] = $orderData;
+    }
+
+    // Store for immediate display (user-specific)
+    if (isset($_SESSION['logged_in_user'])) {
+      $userId = $_SESSION['logged_in_user']['id'];
+      $_SESSION['last_order_' . $userId] = $orderData;
+    } else {
+      // Fallback for non-logged in users
+      $_SESSION['last_order'] = $orderData;
+    }
 
     // Clear the cart
     $_SESSION['cart'] = [];
