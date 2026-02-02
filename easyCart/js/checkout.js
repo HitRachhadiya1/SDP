@@ -109,8 +109,31 @@ function initializeShippingUpdates() {
     }
   };
 
+  // Save selected shipping method to session storage
+  const saveShippingMethod = (method) => {
+    sessionStorage.setItem("selected_shipping_method", method);
+  };
+
+  // Restore selected shipping method from session storage
+  const restoreShippingMethod = () => {
+    const savedMethod = sessionStorage.getItem("selected_shipping_method");
+    if (savedMethod) {
+      const savedInput = document.querySelector(
+        `input[name='shipping'][value='${savedMethod}']`,
+      );
+      if (savedInput) {
+        savedInput.checked = true;
+      }
+    }
+  };
+
+  // Initialize: restore saved shipping method
+  restoreShippingMethod();
+
   shippingInputs.forEach((input) => {
     input.addEventListener("change", () => {
+      // Save the selected method
+      saveShippingMethod(input.value);
       // Use AJAX for server-side calculation
       updateSummaryWithAjax();
     });

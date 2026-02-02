@@ -7,7 +7,8 @@ if (empty($_SESSION['cart'])) {
   header("Location: cart.php");
   exit;
 }
-$shippingMethod = $_POST['shipping'] ?? 'standard';
+// Get shipping method from POST or session storage
+$shippingMethod = $_POST['shipping'] ?? ($_SESSION['selected_shipping_method'] ?? 'standard');
 $shippingCost = 0;
 $totalQuantity = 0;
 $subtotal = 0;
