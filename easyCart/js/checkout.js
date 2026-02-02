@@ -62,8 +62,58 @@ function initializeShippingUpdates() {
     totalEl.textContent = formatCurrency(total);
   };
 
+  const updateSummaryWithAjax = async () => {
+    const selected = document.querySelector("input[name='shipping']:checked");
+    const method = selected ? selected.value : "standard";
+
+    try {
+      // Show loading state
+      const loadingIndicator = document.createElement("span");
+      loadingIndicator.textContent = "Calculating...";
+      loadingIndicator.style.color = "#666";
+      loadingIndicator.style.fontSize = "0.8rem";
+      totalEl.appendChild(loadingIndicator);
+
+      const response = await fetch("cart_api.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          action: "calculate_shipping",
+          shipping_method: method,
+          subtotal: subtotal,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        shippingEl.textContent = formatCurrency(result.shipping_cost);
+        taxEl.textContent = formatCurrency(result.tax);
+        totalEl.textContent = formatCurrency(result.total);
+      } else {
+        // Fallback to client-side calculation if AJAX fails
+        updateSummary();
+      }
+    } catch (error) {
+      console.error("Error calculating shipping:", error);
+      // Fallback to client-side calculation
+      updateSummary();
+    } finally {
+      // Remove loading indicator
+      const loadingIndicator = totalEl.querySelector("span");
+      if (loadingIndicator) {
+        loadingIndicator.remove();
+      }
+    }
+  };
+
   shippingInputs.forEach((input) => {
-    input.addEventListener("change", updateSummary);
+    input.addEventListener("change", () => {
+      // Use AJAX for server-side calculation
+      updateSummaryWithAjax();
+    });
   });
 
   updateSummary();

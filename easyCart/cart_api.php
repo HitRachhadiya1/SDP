@@ -9,6 +9,22 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
+// Shipping calculation function
+function calculateShippingCost($method, $subtotal)
+{
+    switch ($method) {
+        case 'express':
+            return min(80, $subtotal * 0.10);
+        case 'white_glove':
+            return min(150, $subtotal * 0.05);
+        case 'freight':
+            return max(200, $subtotal * 0.03);
+        case 'standard':
+        default:
+            return 40;
+    }
+}
+
 header('Content-Type: application/json');
 
 $action = $_POST['action'] ?? '';
@@ -75,6 +91,26 @@ switch ($action) {
         break;
     case 'summary':
         $response['message'] = 'Summary fetched.';
+        break;
+    case 'calculate_shipping':
+        $shippingMethod = $_POST['shipping_method'] ?? 'standard';
+        $subtotal = (float)$_POST['subtotal'];
+        $taxRate = 0.18; // 18% tax rate
+
+        // Calculate shipping cost
+        $shippingCost = calculateShippingCost($shippingMethod, $subtotal);
+
+        // Calculate tax and total
+        $tax = ($subtotal + $shippingCost) * $taxRate;
+        $total = $subtotal + $shippingCost + $tax;
+
+        echo json_encode([
+            'success' => true,
+            'shipping_cost' => $shippingCost,
+            'tax' => $tax,
+            'total' => $total
+        ]);
+        exit;
         break;
     default:
         $response['success'] = false;
